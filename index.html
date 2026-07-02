@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Verify Credential</title>
+<style>
+  body { font-family: sans-serif; text-align: center; padding: 50px; background: #f2f2f2; }
+  .card { background: white; max-width: 400px; margin: auto; padding: 30px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+  .verified { color: #0F8B8D; }
+  .notfound { color: red; }
+</style>
+</head>
+<body>
+<div class="card" id="result">Checking...</div>
+
+<script>
+const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZwBJRtmFNd0Wy_8WTbXQUMSvLlC9YA0qlGVJ4gOsLYNZBbqGrChO0gPTKxRsxHp2U8bECw6ZJCDw7/pub?gid=0&single=true&output=csv";
+
+function getParam(name) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
+
+fetch(CSV_URL)
+  .then(res => res.text())
+  .then(text => {
+    const id = getParam("id");
+    const rows = text.split("\n").map(r => r.split(","));
+    let found = null;
+    for (let i = 1; i < rows.length; i++) {
+      if (rows[i][0] && rows[i][0].trim() === id) {
+        found = rows[i];
+        break;
+      }
+    }
+    const div = document.getElementById("result");
+    if (found) {
+      div.innerHTML = "<h1 class='verified'>✔ VERIFIED</h1>" +
+        "<p><b>Name:</b> " + found[1] + "</p>" +
+        "<p><b>Credential ID:</b> " + found[0] + "</p>" +
+        "<p><b>Course:</b> " + found[2] + "</p>" +
+        "<p><b>Organization:</b> " + found[3] + "</p>" +
+        "<p><b>Date:</b> " + found[4] + "</p>";
+    } else {
+      div.innerHTML = "<h1 class='notfound'>✘ NOT FOUND</h1><p>No record matches this ID.</p>";
+    }
+  })
+  .catch(() => {
+    document.getElementById("result").innerHTML = "<p>Error loading data.</p>";
+  });
+</script>
+</body>
+</html>
