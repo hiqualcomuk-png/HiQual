@@ -1,17 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Verify Credential</title>
+<title>HiQual Verification</title>
 <style>
-  body { font-family: sans-serif; text-align: center; padding: 50px; background: #f2f2f2; }
-  .card { background: white; max-width: 70px; margin: auto; padding: 12px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-  .verified { color: #0F8B8D; }
-  .notfound { color: red; }
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 30px 20px;
+    background: #ffffff;
+    color: #222;
+  }
+  .top-logo {
+    width: 140px;
+    margin-bottom: 20px;
+  }
+  .badge {
+    width: 110px;
+    margin: 0 auto 22px;
+    display: block;
+  }
+  .thanks {
+    font-size: 20px;
+    font-weight: 600;
+    max-width: 420px;
+    margin: 0 auto 15px;
+  }
+  .based-on {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  .field-label {
+    font-size: 15px;
+    color: #222;
+    margin-top: 14px;
+  }
+  .field-value {
+    font-size: 17px;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  .statement {
+    max-width: 460px;
+    margin: 25px auto 0;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #222;
+    text-align: left;
+  }
+  .notfound { color: #C4432E; font-size: 22px; margin-top: 20px; }
 </style>
 </head>
 <body>
-  <img src="logo-min (1).png" class="logo" alt="Logo">
-<div class="card" id="result">Checking...</div>
+
+<img src="logo-min (1).png" class="top-logo" alt="HiQual Logo">
+
+<div id="result">Checking...</div>
 
 <script>
 const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRZwBJRtmFNd0Wy_8WTbXQUMSvLlC9YA0qlGVJ4gOsLYNZBbqGrChO0gPTKxRsxHp2U8bECw6ZJCDw7/pub?gid=0&single=true&output=csv";
@@ -35,12 +79,33 @@ fetch(CSV_URL)
     }
     const div = document.getElementById("result");
     if (found) {
-      div.innerHTML = "<h1 class='verified'>✔ VERIFIED</h1>" +
-        "<p><b>Name:</b> " + found[1] + "</p>" +
-        "<p><b>Credential ID:</b> " + found[0] + "</p>" +
-        "<p><b>Course:</b> " + found[2] + "</p>" +
-        "<p><b>Organization:</b> " + found[3] + "</p>" +
-        "<p><b>Date:</b> " + found[4] + "</p>";
+      const name = found[1];
+      const credId = found[0];
+      const course = found[2];
+      const org = found[3];
+      const date = found[4];
+
+      div.innerHTML =
+        "<img src='images.png' class='badge' alt='Verified'>" +
+        "<div class='thanks'>Thank you for using the HiQual verifications service.</div>" +
+        "<div class='based-on'>Based on given information</div>" +
+
+        "<div class='field-label'>Name:</div>" +
+        "<div class='field-value'>" + name + "</div>" +
+
+        "<div class='field-label'>Credential's ID:</div>" +
+        "<div class='field-value'>" + credId + "</div>" +
+
+        "<div class='field-label'>Course Name:</div>" +
+        "<div class='field-value'>" + course + "</div>" +
+
+        "<div class='field-label'>ATP:</div>" +
+        "<div class='field-value'>" + org + "</div>" +
+
+        "<div class='field-label'>Date:</div>" +
+        "<div class='field-value'>" + date + "</div>" +
+
+        "<div class='statement'>We hereby verify that the information provided above is accurate and corresponds to the certificate issued by <b>HiQual UK</b> to <b>" + name + "</b> on the specified date. " + name + " has successfully completed the \"" + course + "\" course as indicated.</div>";
     } else {
       div.innerHTML = "<h1 class='notfound'>✘ NOT FOUND</h1><p>No record matches this ID.</p>";
     }
