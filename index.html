@@ -79,8 +79,9 @@ fetch(CSV_URL)
     }
     const div = document.getElementById("result");
     if (found) {
-      const name = found[1];
+      // Column order: ID, Name, Father Name, Date of Birth, Course, Organization, Date
       const credId = found[0];
+      const name = found[1];
       const fatherName = found[2];
       const dob = found[3];
       const course = found[4];
