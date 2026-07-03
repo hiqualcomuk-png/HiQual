@@ -81,9 +81,11 @@ fetch(CSV_URL)
     if (found) {
       const name = found[1];
       const credId = found[0];
-      const course = found[2];
-      const org = found[3];
-      const date = found[4];
+      const fatherName = found[2];
+      const dob = found[3];
+      const course = found[4];
+      const org = found[5];
+      const date = found[6];
 
       div.innerHTML =
         "<img src='images.png' class='badge' alt='Verified'>" +
@@ -92,6 +94,12 @@ fetch(CSV_URL)
 
         "<div class='field-label'>Name:</div>" +
         "<div class='field-value'>" + name + "</div>" +
+
+        "<div class='field-label'>Father Name:</div>" +
+        "<div class='field-value'>" + fatherName + "</div>" +
+
+        "<div class='field-label'>Date of Birth:</div>" +
+        "<div class='field-value'>" + dob + "</div>" +
 
         "<div class='field-label'>Credential's ID:</div>" +
         "<div class='field-value'>" + credId + "</div>" +
